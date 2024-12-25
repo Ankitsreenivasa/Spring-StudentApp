@@ -1,0 +1,117 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Student Information</h2>
+  <div class="d-flex justify-content-center mb-3">
+    <button class="btn btn-success" (click)="showCreateForm = true">Create Student</button>
+  </div>
+
+  <!-- Alert Message -->
+  <div *ngIf="showAlert" class="alert alert-primary" role="alert">
+    Saved Successfully!
+  </div>
+
+  <!-- Create Student Modal -->
+  <div class="modal" tabindex="-1" [ngClass]="{'show': showCreateForm}" [ngStyle]="{'display': showCreateForm ? 'block' : 'none'}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create Student</h5>
+          <button type="button" class="btn-close" (click)="resetForm()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="createStudent()" #createForm="ngForm">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName" [(ngModel)]="newStudent.firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastName" [(ngModel)]="newStudent.lastName" name="lastName" required>
+            </div>
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="newStudent.phoneNumber" name="phoneNumber" required>
+            </div>
+            <div class="mb-3">
+              <label for="age" class="form-label">Age</label>
+              <input type="number" class="form-control" id="age" [(ngModel)]="newStudent.age" name="age" required min="18">
+              <div *ngIf="createForm.controls['age']?.invalid && (createForm.controls['age']?.dirty || createForm.controls['age']?.touched)" class="text-danger">
+                Age must be above 17.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="department" class="form-label">Department</label>
+              <select class="form-select" id="department" [(ngModel)]="newStudent.department" name="department" required>
+                <option value="" disabled selected>Select Department</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="section" class="form-label">Section</label>
+              <select class="form-select" id="section" [(ngModel)]="newStudent.section" name="section" required>
+                <option value="" disabled selected>Select Section</option>
+                <option *ngFor="let sec of sections" [value]="sec">{{ sec }}</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Student Modal -->
+  <div class="modal" tabindex="-1" [ngClass]="{'show': showEditForm}" [ngStyle]="{'display': showEditForm ? 'block' : 'none'}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Student</h5>
+          <button type="button" class="btn-close" (click)="showEditForm = false"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="updateStudent()" #editForm="ngForm">
+            <div class="mb-3">
+              <label for="editFirstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="editFirstName" [(ngModel)]="selectedStudent.firstName" name="editFirstName" required>
+            </div>
+            <div class="mb-3">
+              <label for="editLastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="editLastName" [(ngModel)]="selectedStudent.lastName" name="editLastName" required>
+            </div>
+            <div class="mb-3">
+              <label for="editPhoneNumber" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="editPhoneNumber" [(ngModel)]="selectedStudent.phoneNumber" name="editPhoneNumber" required>
+            </div>
+            <div class="mb-3">
+              <label for="editAge" class="form-label">Age</label>
+              <input type="number" class="form-control" id="editAge" [(ngModel)]="selectedStudent.age" name="editAge" required min="18">
+              <div *ngIf="editForm.controls['editAge']?.invalid && (editForm.controls['editAge']?.dirty || editForm.controls['editAge']?.touched)" class="text-danger">
+                Age must be above 17.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="editDepartment" class="form-label">Department</label>
+              <select class="form-select" id="editDepartment" [(ngModel)]="selectedStudent.department" name="editDepartment" required>
+                <option value="" disabled selected>Select Department</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="editSection" class="form-label">Section</label>
+              <select class="form-select" id="editSection" [(ngModel)]="selectedStudent.section" name="editSection" required>
+                <option value="" disabled selected>Select Section</option>
+                <option *ngFor="let sec of sections" [value]="sec">{{ sec }}</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="showEditForm = false">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
